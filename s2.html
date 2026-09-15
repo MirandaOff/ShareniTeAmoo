@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Historia ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0d0d11;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+
+        /* Canvas de fondo */
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Contenedor principal */
+        .dashboard {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin: 40px 0 30px;
+        }
+
+        h1 {
+            color: #ff4b72;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(255, 75, 114, 0.4);
+        }
+
+        header p {
+            color: #b0b0b0;
+            font-size: 1.1rem;
+        }
+
+        /* Card estilizada (Glassmorphism) */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .section-title {
+            color: #ff4b72;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Grid del Contador */
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            text-align: center;
+        }
+
+        .counter-box {
+            background: rgba(255, 75, 114, 0.1);
+            border: 1px solid rgba(255, 75, 114, 0.2);
+            padding: 15px 10px;
+            border-radius: 15px;
+        }
+
+        .counter-number {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            display: block;
+        }
+
+        .counter-label {
+            font-size: 0.85rem;
+            color: #ff7597;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        /* Línea del Tiempo (Timeline) */
+        .timeline {
+            position: relative;
+            margin: 20px 0;
+            padding-left: 20px;
+            border-left: 2px solid rgba(255, 75, 114, 0.4);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+
+        .timeline-item::before {
+            content: '❤️';
+            position: absolute;
+            left: -33px;
+            top: 0;
+            background: #0d0d11;
+            font-size: 0.9rem;
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            color: #ff4b72;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .timeline-desc {
+            color: #cccccc;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Sección de Frase u Nota */
+        .quote-box {
+            text-align: center;
+            font-style: italic;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Adaptabilidad */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .counter-number { font-size: 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fondo dinámico en Canvas -->
+    <canvas id="canvas"></canvas>
+
+    <div class="dashboard">
+
+        <!-- Encabezado -->
+        <header>
+            <h1>Nuestros momentos mas especiales</h1>
+            <p>Solo puse algunos, pero en realidad todos son especiales para mi<33.</p>
+        </header>
+
+        <!-- Contador en Tiempo Real -->
+        <div class="glass-card">
+            <div class="section-title">Llevamos Juntos ✨</div>
+            <div class="counter-grid">
+                <div class="counter-box">
+                    <span class="counter-number" id="days">00</span>
+                    <span class="counter-label">Días</span>
+                </div>
+                <div class="counter-box">
+                    <span class="counter-number" id="hours">00</span>
+                    <span class="counter-label">Horas</span>
+                </div>
+                <div class="counter-box">
+                    <span class="counter-number" id="minutes">00</span>
+                    <span class="counter-label">Minutos</span>
+                </div>
+                <div class="counter-box">
+                    <span class="counter-number" id="seconds">00</span>
+                    <span class="counter-label">Segundos</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Línea del Tiempo -->
+        <div class="glass-card">
+            <div class="section-title">Aqui estan 😝</div>
+            <div class="timeline">
+                
+                <div class="timeline-item">
+                    <div class="timeline-date"> Domingo 15 de Marzo del 2026</div>
+                    <div class="timeline-title">El día que nos vimos por primera vez...</div>
+                    <div class="timeline-desc">Nunca habria imaginado todo lo que sucedio aquel dia.</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Viernes 27 de Marzo del 2026</div>
+                    <div class="timeline-title">La segunda vez que nos vimos...</div>
+                    <div class="timeline-desc">Nos dimos cuenta que nos llevabamos muy lindo en tan poco tiempo.</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Desde el viernes 3 de abril hasta el domingo 19 de abril del 2026</div>
+                    <div class="timeline-title">Nuestras primeras vacaciones "juntos"...</div>
+                    <div class="timeline-desc">Pasaron muchisimas cosas lindas. Nos la pasamos viendonos casi a diario.</div>
+                </div>
+				
+				<div class="timeline-item">
+                    <div class="timeline-date">Miercoles 15 de abril del 2026</div>
+                    <div class="timeline-title">Nuestro primer mes cumplido como novios...</div>
+                    <div class="timeline-desc">Tras 31 dias de habernos conocido un poco mas,
+					supe que eras la persona que iba a amar por el resto de mi vida.</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Viernes 1 de mayo del 2026</div>
+                    <div class="timeline-title">No recuerdo bien, pero creo que fue la primera vez que entre a tu casa...</div>
+                    <div class="timeline-desc">Nos tomamos muchas fotos super bonitas en tu patio jsjsj.</div>
+                </div>
+				                <div class="timeline-item">
+                    <div class="timeline-date">Domingo 3 de Mayo del 2026</div>
+                    <div class="timeline-title">El dia que fuimos a una plaza con tus papás...</div>
+                    <div class="timeline-desc">Estuvimos dando vueltas por toda la plaza tomandonos fotos
+					en los espejos que encontrabamos y oliendo muchos tipos de velas jajja.</div>
+                </div>
+				                <div class="timeline-item">
+                    <div class="timeline-date">Lunes 4 de Mayo del 2026</div>
+                    <div class="timeline-title">Acompañamos a tu papá por su Switch...</div>
+                    <div class="timeline-desc">Ese dia estuvimos mas tiempo juntos que el anterior haciendonos mensos por todos lados
+					y viendo ropa que te gusto.</div>
+                </div>
+				                <div class="timeline-item">
+                    <div class="timeline-date">Viernes 15 de Mayo del 2026</div>
+                    <div class="timeline-title">Nos la pasamos todo el dia en el Cosmopol desde tempranito.</div>
+                    <div class="timeline-desc">Habiamos empezado el dia en tu casa haciendo limonada y despues lo terminamos viendo muebles y cocinas
+					jajsh. Tambien habias abierto una caja sorpresa de tus conejitos :0.</div>
+                </div>
+				                <div class="timeline-item">
+                    <div class="timeline-date">Domingo 24 de Mayo del 2026</div>
+                    <div class="timeline-title">El dia que inventamos nuestro saludo secreto.</div>
+                    <div class="timeline-desc">No recuerdo como fue que llegamos a inventarlo, pero estuvo lindo como quedo<33.</div>
+                </div>
+				
+				<div class="timeline-item">
+                    <div class="timeline-date">Lunes 15 de Junio del 2026</div>
+                    <div class="timeline-title">Nuestro tercer mes cumplido de novios...</div>
+                    <div class="timeline-desc">Aunque no lo pudimos pasar juntos, pudimos hablar cierta parte de la noche y nos la pasamos bonito.</div>
+                </div>
+				
+                <div class="timeline-item">
+                    <div class="timeline-date">Sabado 4 de Julio del 2026</div>
+                    <div class="timeline-title">Aquel sabado fuiste mi 4 de Julio...</div>
+                    <div class="timeline-desc">Lo que significa que eres mi luz, mi emocion y mi festejo <33.</div>
+				</div>	
+				
+                <div class="timeline-item">
+                    <div class="timeline-date">Viernes 10 de Julio del 2026</div>
+                    <div class="timeline-title">Empezo a caerse el cielo y nos mojamos...</div>
+                    <div class="timeline-desc">Creo que estabamos bailando ese dia y despues empezo a llover muy feo jajsj.
+					Gracias a eso salio un video muy bonito de nosotros bajo la lluvia (y experiencias locas hshs).</div>
+                </div>
+				
+				<div class="timeline-item">
+                    <div class="timeline-date">Miercoles 15 de Julio del 2026</div>
+                    <div class="timeline-title">Nuestro cuarto mes cumplido como novios...</div>
+                    <div class="timeline-desc">Pasamos casi el dia entero en el cosmopol y conociste un poco mas a mi papá.</div>
+				</div>
+				
+	            <div class="timeline-item">
+                    <div class="timeline-date">Domingo 26 de Julio del 2026</div>
+                    <div class="timeline-title">Fuimos juntos a un evento que tenian tus papás...</div>
+                    <div class="timeline-desc">Nos aburrimos tanto en ese evento que terminamos buscando salidas desesperadas por todos lados jsjsjd.</div>
+                </div>	
+				
+               <div class="timeline-item">
+                    <div class="timeline-date">Viernes 31 de Julio del 2026</div>
+                    <div class="timeline-title">Mi graduacion...</div>
+                    <div class="timeline-desc">Despues de que terminaste conociendo mas a mi familia en la comida que tuvimos
+					, encontraste un Husky blanco muy lindo que terminamos buscando por toda la calle jajsjsj. (Es sorprendente que
+					te hayan gustado los chilaquiles oye 0:)</div>
+                </div>	
+				
+	           <div class="timeline-item">
+                    <div class="timeline-date">Sabado 1 de Agosto del 2026</div>
+                    <div class="timeline-title">El dia de la novia...</div>
+                    <div class="timeline-desc">No pudimos pasar ese dia juntos tampoco, pero si hice un pequeño collage sobre lo perfecta que es mi novicita.</div>
+                </div>
+				
+                <div class="timeline-item">
+                    <div class="timeline-date">Viernes 14 de Agosto del 2026</div>
+                    <div class="timeline-title">Un dia antes de nuestro quinto cumple mes...</div>
+                    <div class="timeline-desc">No recuerdo mucho de ese dia, pero si puedo asegurar con seguridad que estuvo muy bonito.
+					Nos dimos nuestros respectivos regalos de cumple mes y nos tomamos fotitos lindas con ellos <33.</div>
+                </div>
+				
+				<div class="timeline-item">
+                    <div class="timeline-date">Sabado 15 de Agosto del 2026</div>
+                    <div class="timeline-title">Ahora si, el dia de nuestro cumple mes...</div>
+                    <div class="timeline-desc">No lo pasamos juntos, pero si nos subimos a nuestras historias con un collage bonito y tambien
+					hablamos una gran parte del dia <33.</div>
+                </div>
+				
+	            <div class="timeline-item">
+                    <div class="timeline-date">Domingo 30 de Agosto del 2026</div>
+                    <div class="timeline-title">Nuestra segunda lucha libre :0...</div>
+                    <div class="timeline-desc">No tengo mucho que decir aqui oye, claramente yo gane esa segunda edicion.</div>
+                </div>	
+				
+				<div class="timeline-item">
+                    <div class="timeline-date">Domingo 6 de Septiembre del 2026</div>
+                    <div class="timeline-title">El dia del Snoopy...</div>
+                    <div class="timeline-desc">Ese dia me regalaste una gorra y a Snoopy jsjsjs, me gustaron muchisimo los regalos, pero mas el
+					dia que pasamos juntos. Fue increible como estuvimos bailando y cantando jajsjd.</div>
+                </div>
+				
+				
+            </div>
+        </div>
+
+        <!-- Mensaje / Nota de amor -->
+        <div class="glass-card">
+            <div class="quote-box">
+                "Gracias por hacer que cada dia parezca especial si estas tú. Eres mi persona favorita, te amo mucho muchisimo, amor." ❤️
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // === 1. CONFIGURA AQUÍ LA FECHA DE INICIO DE SU RELACIÓN ===
+        // Formato: Año, Mes (0-11, donde Enero=0, Febrero=1, Dic=11), Día, Hora, Minuto
+        const startDate = new Date(2026, 2, 15, 2, 0, 0); 
+
+        function updateCounter() {
+            const now = new Date();
+            const difference = now - startDate;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((difference / 1000 / 60) % 60);
+            const seconds = Math.floor((difference / 1000) % 60);
+
+            document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+        }
+
+        setInterval(updateCounter, 1000);
+        updateCounter();
+
+        // === 2. FONDO ANIMADO DE PARTÍCULAS / ESTRELLAS (CANVAS) ===
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedY = Math.random() * 0.5 + 0.1;
+                this.opacity = Math.random() * 0.7 + 0.2;
+            }
+
+            update() {
+                this.y -= this.speedY;
+                if (this.y < 0) {
+                    this.y = height;
+                    this.x = Math.random() * width;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#ff4b72';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        const particles = Array.from({ length: 60 }, () => new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
