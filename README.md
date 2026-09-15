@@ -1,0 +1,2 @@
+# ShareniTeAmoo
+AmoAMiNovia
